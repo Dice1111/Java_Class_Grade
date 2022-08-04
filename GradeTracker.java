@@ -1,4 +1,5 @@
-import apple.*;
+import apple.Student;
+import apple.Module;
 import java.util.*;
 
 public class GradeTracker {
@@ -9,7 +10,7 @@ public class GradeTracker {
         Scanner scan = new Scanner(System.in);
 
         //obj............
-
+        
         
         
         Students.add(new Student("MGMG","1"));
@@ -63,12 +64,12 @@ public class GradeTracker {
                 
                 //delete new students..............
                 else if(sm_option == 2){
-                    System.out.println("Enter the student to delete: ");
-                    String del_name = scan.next();
-                    for(Student x:Students){
-                        if(x.getName().equals(del_name)){
-                            Students.remove(x);
-                            
+                    System.out.println("Enter the student id to delete: ");
+                    String del_id = scan.next();
+                    for(Iterator<Student> x = Students.iterator(); x.hasNext();){
+                        Student Student = x.next();
+                        if(Student.getStudentID().equals(del_id)){
+                            x.remove();   
                         }
                     }
                     System.out.println(Students);
@@ -98,9 +99,26 @@ public class GradeTracker {
                     System.out.print("Enter student id to add modules; ");
                     String mod_std_id=scan.next();
 
-                    for(Student x: Students){
-                        if(x.getStudentID().equals((mod_std_id))){
-                            System.out.println("Yes");
+                    for(Iterator<Student> x = Students.iterator(); x.hasNext();){
+                        Student Student = x.next();
+                        if(Student.getStudentID().equals((mod_std_id))){
+                            Module std_module = new Module();
+
+                            System.out.print("add module name: ");
+                            String module_name=scan.next();
+                            std_module.setModuleName(module_name);
+
+                            System.out.print("add module code: ");
+                            String module_code=scan.next();
+                            std_module.setModuleCode(module_code);
+
+                            System.out.print("add module description: ");
+                            String module_description=scan.next();
+                            std_module.setDescription(module_description);
+
+                            Student.setModules(std_module);
+                            System.out.print(Student);
+                            System.out.print(Student.getModules());
                         }
                     }
             

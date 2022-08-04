@@ -25,9 +25,9 @@ public class Student {
     public String getStudentID() {
         return this.studentID;
     }
-    // public ArrayList<String> getModules(){
-    //     return this.modules;
-    // }
+    public ArrayList<Module> getModules(){
+        return this.modules;
+    }
     // public ArrayList<String> getModuleCodes(){
     //     return this.module_codes;
     // }
@@ -41,9 +41,9 @@ public class Student {
         this.studentID = studentID;
     }
 
-    // public void setModules(String module_name){
-    //     this.modules.add(module_name);
-    // }
+    public void setModules(Module modules){
+        this.modules.add(modules);
+    }
 
     // public void setModuleCodes(String moduleCode_id){
     //     this.module_codes.add(moduleCode_id);

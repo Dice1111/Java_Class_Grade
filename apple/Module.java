@@ -12,6 +12,14 @@ public class Module {
     public Module(){
 
     }
+    public Module(String name,String moduleCode,String description,int creditUnits){
+        this.name = name;
+        this.moduleCode = moduleCode;
+        this.description = description;
+        this.creditUnits = creditUnits;
+        
+    }
+
     //GET
     public String getModuleName(){
         return this.name;
@@ -43,6 +51,14 @@ public class Module {
         this.creditUnits = creditUnits;
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+                "name='" + name + ","+'\'' +
+                "id='" + moduleCode + '\''+
+                '}';
+    }
 }
+
 
 
