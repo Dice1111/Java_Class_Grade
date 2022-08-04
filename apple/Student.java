@@ -4,8 +4,8 @@ import java.util.*;
 public class Student {
     private String name;
     private String studentID;
-    private ArrayList<String> modules = new ArrayList<String>();
-    private ArrayList<String> module_codes = new ArrayList<String>();
+    private ArrayList<Module> modules = new ArrayList<Module>();
+
 
 
 
@@ -23,12 +23,12 @@ public class Student {
     public String getStudentID() {
         return this.studentID;
     }
-    public ArrayList<String> getModules(){
-        return this.modules;
-    }
-    public ArrayList<String> getModuleCodes(){
-        return this.module_codes;
-    }
+    // public ArrayList<String> getModules(){
+    //     return this.modules;
+    // }
+    // public ArrayList<String> getModuleCodes(){
+    //     return this.module_codes;
+    // }
     
     //set..........
     public void setName(String name){
@@ -39,13 +39,13 @@ public class Student {
         this.studentID = studentID;
     }
 
-    public void setModules(String module_name){
-        this.modules.add(module_name);
-    }
+    // public void setModules(String module_name){
+    //     this.modules.add(module_name);
+    // }
 
-    public void setModuleCodes(String moduleCode_id){
-        this.module_codes.add(moduleCode_id);
-    }
+    // public void setModuleCodes(String moduleCode_id){
+    //     this.module_codes.add(moduleCode_id);
+    // }
 
     @Override
     public String toString() {
