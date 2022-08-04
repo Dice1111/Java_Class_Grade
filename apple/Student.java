@@ -9,7 +9,9 @@ public class Student {
 
 
 
+    public Student(){
 
+    }
 
     public Student(String name,String studentID){
         this.name = name;

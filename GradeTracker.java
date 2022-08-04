@@ -2,11 +2,7 @@ import apple.*;
 import java.util.*;
 
 public class GradeTracker {
-    private static ArrayList<Student> Students = new ArrayList<Student>();
-    private static ArrayList<String> Students_ID = new ArrayList<String>();
-    private static ArrayList<ArrayList<String>> Modules = new ArrayList<ArrayList<String>>();
-
-    
+    private static ArrayList<Student> Students = new ArrayList<>();
 
     public static void main(String [] args){
 
@@ -14,8 +10,7 @@ public class GradeTracker {
 
         //obj............
 
-        // Student std = new Student();
-
+        
         
         Students.add(new Student("MGMG","1"));
         Students.add(new Student("AUNGAUNG","2"));
@@ -39,17 +34,27 @@ public class GradeTracker {
                 int sm_option = scan.nextInt();
                 //create new students............
                 if(sm_option == 1){
+                    Student std = new Student();
                     //name...............
                     System.out.print("Enter student name; ");
                     String std_name =scan.next();
+                    std.setName(std_name);
 
 
                     //id.....................
                     System.out.print("Enter student id; ");
                     String std_id =scan.next();
+                    std.setStudentID(std_id);
 
-                    Students.add(new Student(std_name,std_id));
-                    // System.out.println("New student is created successfully:\nName: "+Students.get(Students.indexOf(std.getName()))+"\nid: "+Students_ID.get(Students_ID.indexOf(std.getStudentID())));
+                    Students.add(std);
+                    System.out.println("New student is created successfully:\nName: "+Students.get(Students.indexOf(std)).getName()+"\nid: "+Students.get(Students.indexOf(std)).getStudentID());
+                    System.out.println(Students);
+                    // for(Student x:Students){
+                    //     if(x.getName() == std_name){
+                    //         int index = Students.indexOf(x);
+                    //         System.out.println("New student is created successfully:\nName: "+Students.get(index).getName()+"\nid: "+Students.get(index).getStudentID());
+                    //     }
+                    // }
 
                     break;
 
@@ -60,17 +65,15 @@ public class GradeTracker {
                 else if(sm_option == 2){
                     System.out.println("Enter the student to delete: ");
                     String del_name = scan.next();
-                    int del_index =Students.indexOf(del_name);
-                    Students.remove(del_index);
-                    Students_ID.remove(del_index);
-
+                    for(Student x:Students){
+                        if(x.getName().equals(del_name)){
+                            Students.remove(x);
+                            
+                        }
+                    }
                     System.out.println(Students);
 
                     break;
-                    
-
-
-
                 }
                 //GPA....................
                 else if (sm_option == 3){
@@ -94,7 +97,7 @@ public class GradeTracker {
                     System.out.print("Enter student id to add modules; ");
                     String mod_std_id=scan.next();
             
-                    if(Students_ID.contains(mod_std_id)){
+                    if(Students.contains(mod_std_id)){
                         while(true){
                             System.out.print("add module name:Enter stop to stop;  ");
                             String module_name=scan.next();
@@ -157,7 +160,7 @@ public class GradeTracker {
                 }    
             }
         }else{
-            System.out.println("Hello");
+            
         }
 
     }
