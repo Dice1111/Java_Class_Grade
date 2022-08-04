@@ -73,6 +73,7 @@ public class GradeTracker {
                     }
                     System.out.println(Students);
 
+
                     break;
                 }
                 //GPA....................
@@ -96,29 +97,35 @@ public class GradeTracker {
                     while(true){
                     System.out.print("Enter student id to add modules; ");
                     String mod_std_id=scan.next();
+
+                    for(Student x: Students){
+                        if(x.getStudentID().equals((mod_std_id))){
+                            System.out.println("Yes");
+                        }
+                    }
             
-                    if(Students.contains(mod_std_id)){
-                        while(true){
-                            System.out.print("add module name:Enter stop to stop;  ");
-                            String module_name=scan.next();
+                    // if(Students.contains(mod_std_id)){
+                    //     while(true){
+                    //         System.out.print("add module name:Enter stop to stop;  ");
+                    //         String module_name=scan.next();
 
 
-                            if(module_name.equals("stop")){
-                                break;
-                            }
+                    //         if(module_name.equals("stop")){
+                    //             break;
+                    //         }
 
-                            System.out.print("add module code: ");
-                            String moduleCode_id=scan.next();
+                    //         System.out.print("add module code: ");
+                    //         String moduleCode_id=scan.next();
                             
-                            // std.setModules(module_name);
-                            // std.setModuleCodes(moduleCode_id);
-                            // System.out.println(std.getModules());
-                            // System.out.println(std.getModuleCodes());
-                        }
+                    //         // std.setModules(module_name);
+                    //         // std.setModuleCodes(moduleCode_id);
+                    //         // System.out.println(std.getModules());
+                    //         // System.out.println(std.getModuleCodes());
+                    //     }
 
-                    }else{
-                        System.out.print("No student!");
-                        }
+                    // }else{
+                    //     System.out.print("No student!");
+                    //     }
                     
                     
                 }

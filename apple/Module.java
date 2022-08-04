@@ -8,6 +8,41 @@ public class Module {
     private int creditUnits;
     private  ArrayList <String>assessments = new ArrayList<String>();
 
+
+    public Module(){
+
+    }
+    //GET
+    public String getModuleName(){
+        return this.name;
+    }
+    public String getModuleCode(){
+        return this.moduleCode;
+    }
+
+    public String getDescription(){
+        return this.description;
+    }
+    
+    public int getCreditUnits(){
+        return this.creditUnits;
+    }
+    //SET
+    public void setModuleName(String name){
+        this.name = name;
+    }
+    public void setModuleCode(String moduleCode){
+        this.moduleCode = moduleCode;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
+    }
+    
+    public void setCreditUnits(int creditUnits){
+        this.creditUnits = creditUnits;
+    }
+
 }
 
 
