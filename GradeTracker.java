@@ -52,11 +52,27 @@ public class GradeTracker {
                         System.out.println("Enter the student id to delete: ");
                         String del_id = scan.next();
                         for (Iterator<Student> x = Students.iterator(); x.hasNext();) {
+                            // System.out.print(x);
                             Student Student = x.next();
+                            // System.out.println(Students.indexOf(Student));
                             if (Student.getStudentID().equals(del_id)) {
                                 x.remove();
+                                break;
+                            }else if(Students.indexOf(Student) == Students.size()-1){
+                                System.out.println("Student not found!");
                             }
                         }
+
+                        // Student check = new Student(del_name,del_id);
+                        // Student check_final = check;
+
+                        // if(Students.contains(check_final)){
+                        //     System.out.println("Yes");
+                        // }else{
+                        //     System.out.println("No");
+                        // }
+
+
                         System.out.println(Students);
 
                     }

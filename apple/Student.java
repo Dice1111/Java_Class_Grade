@@ -56,4 +56,19 @@ public class Student {
                 "id=\"" + studentID + "\"" +
                 "}";
     }
+
+
+    @Override
+    public boolean equals(Object object)
+    {
+        boolean isEqual= false;
+
+        if (object != null && object instanceof Student)
+        {
+            isEqual = (this.studentID == ((Student) object).studentID);
+        }
+
+        return isEqual;
+    }
+
 }
