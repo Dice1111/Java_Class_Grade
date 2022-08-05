@@ -1,13 +1,20 @@
+
 import java.util.*;
 
 public class test {
-    public static void main(String[] args){
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Enter name");
-        String name = scan.next();
+    private static ArrayList<String> names = new ArrayList<>();
 
-        if (name == "banana"){
-            System.out.println(name);
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Enter name");
+            String name = scan.next();
+            for (int i = 0; i < names.size(); i++) {
+
+            }
+
         }
+
     }
 }
