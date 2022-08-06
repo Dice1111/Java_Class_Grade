@@ -45,9 +45,31 @@ public class Student {
         this.modules.add(modules);
     }
 
-    // public void setModuleCodes(String moduleCode_id){
-    // this.module_codes.add(moduleCode_id);
-    // }
+    //function.....................
+
+    public int getTotalCreditUnits(){
+        Iterator<Module> a = modules.iterator();
+        int totalCreditUnit = 0;
+        while ( a.hasNext()) {
+            Module module_creditUnit = a.next();
+            totalCreditUnit += module_creditUnit.getCreditUnits();
+        }
+        return  totalCreditUnit;
+    }
+
+    public double getGPA(){
+        Iterator<Module> a = modules.iterator();
+        double WGP = 0;
+        while ( a.hasNext()) {
+            Module module_GPA = a.next();
+            WGP += module_GPA.getWeightedGradePoints();
+            
+        }
+        return  WGP/this.getTotalCreditUnits();
+    }
+    
+
+
 
     @Override
     public String toString() {

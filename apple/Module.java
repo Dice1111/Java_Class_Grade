@@ -7,6 +7,7 @@ public class Module {
     private String moduleCode;
     private String description;
     private int creditUnits;
+    private static double gradePoint;
     private ArrayList<Assessment> assessments = new ArrayList<Assessment>();
 
     public Module() {
@@ -127,26 +128,41 @@ public class Module {
     }
 
     
-    public static void getWeightedGradePoints(String grade){
-        double gradePoint = 0;
+
+    
+    public static void getGradePoints(String grade){
+       
         switch(grade){
         case "A+":
         gradePoint = 4;
+        break;
         case "A":
         gradePoint = 3.5;
+        break;
         case "B+":
         gradePoint = 3;
+        break;
         case "B":
         gradePoint = 2.5;
+        break;
         case "C+":
         gradePoint = 2;
+        break;
         case "C":
         gradePoint = 1.5;
+        break;
         case "Failure":
         gradePoint = 0;
+        break;
         }
         System.out.println(gradePoint);
 
+    }
+
+
+    public double getWeightedGradePoints(){
+
+        return this.creditUnits*gradePoint;
     }
     
 

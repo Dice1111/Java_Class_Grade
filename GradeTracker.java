@@ -261,7 +261,10 @@ public class GradeTracker {
                                                     System.out.println(module.getOverallMarks());
                                                     System.out.println(module.getOverallTotalMarks());
                                                     System.out.println(module.getOverallGrade());
-                                                    Module.getWeightedGradePoints(module.getOverallGrade());
+                                                    Module.getGradePoints(module.getOverallGrade());
+                                                    System.out.println(module.getWeightedGradePoints());
+                                                    System.out.println(Student.getTotalCreditUnits());
+                                                    System.out.println(Student.getGPA());
 
                                                     System.out.print("\nDo you want to add more Assessment(y/n): ");
                                                     assess_loop = scan.next();
