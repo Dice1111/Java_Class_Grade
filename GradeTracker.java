@@ -6,16 +6,56 @@ import java.util.*;
 public class GradeTracker {
     private static ArrayList<Student> Students = new ArrayList<>();
 
+
+    //method.......
+    public static double get_GPA(String id){
+        double gpa = 0;
+        for(Student x :Students){
+                if(x.getStudentID().equals(id)){
+                    gpa = x.getGPA();
+                }     
+        }
+        return gpa;
+    }
+
+    public static double get_overAllMark(String id,String moduleCode){
+        double overallmark = 0;
+        for(Student x :Students){
+                if(x.getStudentID().equals(id)){
+                    for(Module y : x.getModules()){
+                        if(y.getModuleCode().equals(moduleCode)){
+                            overallmark = y.getOverallMarks();
+                        }
+                    }
+                }
+            } 
+            return overallmark;    
+        }
+ 
+        public static String get_overAllGrade(String id,String moduleCode){
+            String overallmark = "";
+            for(Student x :Students){
+                    if(x.getStudentID().equals(id)){
+                        for(Module y : x.getModules()){
+                            if(y.getModuleCode().equals(moduleCode)){
+                                overallmark = y.getOverallGrade();
+                            }
+                        }
+                    }
+                } 
+            return overallmark;    
+        }
+    
+
+    //main..............
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
-
+        
         // obj............
 
         Students.add(new Student("MGMG", "1"));
         Students.add(new Student("AUNGAUNG", "2"));
-
-    
 
         while (true) {
             System.out.print(
@@ -30,6 +70,7 @@ public class GradeTracker {
                             "\n1:Create new students\n2:Delete new students\n3:Calculate GPA\n0:Go Main Menu\nEnter Option: ");
                     int sm_option = scan.nextInt();
                     // create new students............
+
                     if (sm_option == 1) {
                         Student std = new Student();
                         // name...............
@@ -67,14 +108,20 @@ public class GradeTracker {
                                 } else if (Students.indexOf(Student) == Students.size() - 1) {
                                     System.out.println("Student not found!");
                                 }
-
                             }
-
                         }
                     }
                     // GPA....................
                     else if (sm_option == 3) {
-                        System.out.println("mango");
+                        String x = "y";
+                        while(x.equals("y")){
+                            System.out.println("Enter student id: ");
+                            String id = scan.next();
+                            System.out.println( get_GPA(id));
+                            System.out.println("Do you want to find another student's GPA?(y/n): ");
+                            x = scan.next();
+                        }
+                        
                     } else if (sm_option == 0) {
                         break;
                     } else {
@@ -84,6 +131,7 @@ public class GradeTracker {
                 }
 
             }
+            
             // Modules........................
 
             else if (main_option == 2) {
@@ -189,10 +237,35 @@ public class GradeTracker {
                             }
                         }
 
-                    } else if (sm_option == 3) {
-                        System.out.println("mango");
-                    } else if (sm_option == 4) {
-                        System.out.println("pineapple");
+                    } 
+                    
+                    //OverallMarks.....................
+                    else if (sm_option == 3) {
+                        String x = "y";
+                        while(x.equals("y")){
+                        System.out.println("Enter student id");
+                        String id = scan.next();
+                        System.out.println("Enter module code");
+                        String module_code = scan.next();
+                        System.out.println(get_overAllMark(id,module_code));
+                        System.out.println("Do you want to find another student's GPA?(y/n): ");
+                        x = scan.next();
+                        }
+
+                    } 
+                    //OverallGrade.....................
+                    
+                    else if (sm_option == 4) {
+                        String x = "y";
+                        while(x.equals("y")){
+                        System.out.println("Enter student id");
+                        String id = scan.next();
+                        System.out.println("Enter module code");
+                        String module_code = scan.next();
+                        System.out.println(get_overAllGrade(id,module_code));
+                        System.out.println("Do you want to find another student's GPA?(y/n): ");
+                        x = scan.next();
+                        }
                     } else if (sm_option == 0) {
                         break;
                     } else {
@@ -203,6 +276,7 @@ public class GradeTracker {
             }
 
             // Assessment.....................
+            
             else if (main_option == 3) {
 
                 while (true) {
@@ -374,7 +448,9 @@ public class GradeTracker {
                     }
                 }
 
-            } else if (main_option == 4) {
+            } 
+            
+            else if (main_option == 4) {
                 System.out.println("\nProgram is terminated");
                 System.exit(0);
             }
@@ -383,7 +459,10 @@ public class GradeTracker {
                 System.out.println("\nInvalid Input.Please Try Again!!\n");
 
             }
-
+            
         }
+
+       
     }
+    
 }
