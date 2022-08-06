@@ -65,7 +65,7 @@ public class Assessment {
         this.weightage = weightage;
     }
 
-    public double getWeightedMarks(){
+    public double getWeightageMarks(){
         return this.marks*this.weightage/this.totalMarks;
     }
 

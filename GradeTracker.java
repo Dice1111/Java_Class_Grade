@@ -32,9 +32,9 @@ public class GradeTracker {
             return overallmark;    
         }
  
-        public static String get_overAllGrade(String id,String moduleCode){
-            String overallmark = "";
-            for(Student x :Students){
+    public static String get_overAllGrade(String id,String moduleCode){
+        String overallmark = "";
+        for(Student x :Students){
                     if(x.getStudentID().equals(id)){
                         for(Module y : x.getModules()){
                             if(y.getModuleCode().equals(moduleCode)){
@@ -44,7 +44,7 @@ public class GradeTracker {
                     }
                 } 
             return overallmark;    
-        }
+    }
     
 
     //main..............
@@ -331,7 +331,7 @@ public class GradeTracker {
 
                                                     System.out.println(module);
                                                     System.out.println(module.getAssessments());
-                                                    System.out.println(std_assess.getWeightedMarks());
+                                                    System.out.println(std_assess.getWeightageMarks());
                                                     System.out.println(module.getOverallMarks());
                                                     System.out.println(module.getOverallTotalMarks());
                                                     System.out.println(module.getOverallGrade());

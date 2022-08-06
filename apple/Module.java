@@ -70,7 +70,7 @@ public class Module {
         double overallMarks = 0;
         while ( a.hasNext()) {
             Assessment assessment = a.next();
-            overallMarks += assessment.getMarks();
+            overallMarks += assessment.getWeightageMarks();
         }
 
         return overallMarks;
@@ -95,7 +95,7 @@ public class Module {
         String overallGrade = "";
         while ( a.hasNext()) {
             Assessment assessment = a.next();
-            grade_mark += assessment.getWeightedMarks();
+            grade_mark += assessment.getWeightageMarks();
         }
         switch((int)grade_mark/10){
             case 10:
