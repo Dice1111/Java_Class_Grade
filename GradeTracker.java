@@ -3,6 +3,7 @@ import apple.Assessment;
 import apple.Module;
 import java.util.*;
 
+
 public class GradeTracker {
     private static ArrayList<Student> Students = new ArrayList<>();
 
@@ -63,7 +64,7 @@ public class GradeTracker {
         return s != null && s.chars().allMatch(Character::isDigit);
     }
 
-    //idcheck............
+    //stdidcheck............
     public static boolean check_id(String id){
         boolean check = false;
         for(Student x :Students){
@@ -73,6 +74,33 @@ public class GradeTracker {
         }
         return check;
     }
+
+    //modulenamecheck............
+    public static boolean check_mod_name(String name,Student student){
+        boolean check = false;
+        for(Module y: student.getModules()){
+            if(y.getModuleName().equals(name)){
+                check = true;
+            }  
+        }  
+    
+        return check;
+    } 
+
+    //modulecodecheck............
+    public static boolean check_mod_code(String code,Student student){
+        boolean check = false;
+
+        for(Module y: student.getModules()){
+            if(y.getModuleCode().equals(code)){
+                check = true;
+                } 
+        }
+         
+        return check;
+    }      
+
+
 
     //deleteStudent......
     public static void delete_student(String id){
@@ -86,6 +114,22 @@ public class GradeTracker {
                 System.out.println("Student not found!");
             }  
         } 
+    }
+
+    //deleteModule.............
+    public static void delete_module(String del_module_code,Student module){
+        for (Iterator<Module> y = module.getModules().iterator(); y.hasNext();) {
+            Module single_module = y.next();
+            if (del_module_code.equals(single_module.getModuleCode())) {
+                y.remove();
+                System.out.print(module.getModules());
+                break;
+
+            } else if (module.getModules().indexOf(single_module) == module.getModules().size() - 1) {
+                System.out.println("Module not found!");
+            }
+
+        }
     }
 
     //main...............
@@ -231,101 +275,133 @@ public class GradeTracker {
                     // Add Module................
                     if (sm_option == 1) {
                         String module_loop = "y";
-                        while (true) {
-                            if (module_loop.equals("y")) {
-                                System.out.print("\nEnter student id to add modules; ");
-                                String mod_std_id = scan.next();
+                        while (module_loop.equals("y")) {
+                            System.out.print("\nEnter student id to add modules; ");
+                            String mod_std_id = scan.next();
 
-                                for (Iterator<Student> x = Students.iterator(); x.hasNext();) {
-                                    Student Student = x.next();
-                                    if (Student.getStudentID().equals((mod_std_id))) {
+                            for (Student x: Students) {
+                                if (x.getStudentID().equals((mod_std_id))) {
+                                    Module std_module = new Module();
+                                    
 
-                                        do {
-                                            Module std_module = new Module();
+                                    //Name....................
+                                    while(true){
+                                        try{
                                             System.out.print("add module name: ");
                                             String module_name = scan.next();
+                                            if(check_mod_name(module_name,x)){
+                                                throw new IllegalArgumentException();
+                                            }
                                             std_module.setModuleName(module_name);
+                                            break;
+                                        }
+                                        catch (IllegalArgumentException e ){
+                                            System.out.println("\nModule name is already exist!\n");
+                                        
+                                        }
 
-                                            System.out.print("add module code: ");
-                                            String module_code = scan.next();
-                                            std_module.setModuleCode(module_code);
-                       
-                                            System.out.print("add module description: ");
-                                            String module_description = scan.next();
-                                            std_module.setDescription(module_description);                           
-
-                                            System.out.print("add creditUnits: ");
-                                            int creditUnits = scan.nextInt();
-                                            std_module.setCreditUnits(creditUnits);
-
-                                            Student.setModules(std_module);
-                                            System.out.print(Student);
-                                            System.out.print(Student.getModules());
-                                            
-
-                                            System.out.print("\nDo you want to add more module(y/n): ");
-                                            module_loop = scan.next();
-
-                                        } while (module_loop.equals("y"));
-                                        break;
-                                    } else if (Students.indexOf(Student) == Students.size() - 1) {
-                                        System.out.println("Student not found!");
                                     }
 
+                                    //Code....................
+                                    while(true){
+                                        try{
+                                            System.out.print("add module code: ");
+                                            String module_code = scan.next();
+                                            if(check_mod_code(module_code,x)){
+                                                throw new IllegalArgumentException();
+                                            }
+                                            std_module.setModuleCode(module_code);
+                                            break;
+                                        }catch(IllegalArgumentException e){
+                                            System.out.println("\nModule id is already exist!\n");
+                                            
+                                        }
+                                    }
+
+
+                                    //Desc....................
+                                    System.out.print("add module description: ");
+                                    String module_description = scan.next();
+                                    std_module.setDescription(module_description);                           
+
+
+
+                                    //creditUnit..................
+                                    while(true){
+                                        try{
+                                        System.out.print("add creditUnits: ");
+                                        int creditUnits = scan.nextInt();
+                                        std_module.setCreditUnits(creditUnits);
+                                        break;
+                                        }catch(InputMismatchException e){
+                                            System.out.println("\nPlease enter a number.\n");
+                                            scan.nextLine();
+                                        }
+                                    }
+
+                                    
+                                    x.setModules(std_module);
+                                    System.out.print(x);
+                                    System.out.print(x.getModules());
+
+
+
+                                    System.out.print("\nDo you want to add more module(y/n): ");
+                                    module_loop = scan.next();
+                                    break;
+                                } else if (Students.indexOf(x) == Students.size() - 1) {
+                                    System.out.println("Student not found!");
                                 }
-                            } else {
-                                break;
+
                             }
                         }
-
                     }
 
                     // Delete Modules....................
                     else if (sm_option == 2) {
                         String del_module_loop = "y";
 
-                        while (true) {
-                            if (del_module_loop.equals("y")) {
+                        while (del_module_loop.equals("y") ){
                                 System.out.print("\nEnter student id to remove modules; ");
                                 String mod_std_id = scan.next();
-
                                 for (Iterator<Student> x = Students.iterator(); x.hasNext();) {
                                     Student Student = x.next();
                                     if (Student.getStudentID().equals((mod_std_id))) {
 
                                         System.out.print(Student.getModules());
-
+                                        
                                         System.out.print("\nEnter module code to remove: ");
                                         String del_module_code = scan.next();
 
-                                        for (Iterator<Module> y = Student.getModules().iterator(); y.hasNext();) {
-                                            Module Module = y.next();
-                                            if (del_module_code.equals(Module.getModuleCode())) {
-                                                y.remove();
-                                                System.out.print(Student.getModules());
-                                                System.out.print("\nDo you want to delete more module(y/n): ");
-                                                del_module_loop = scan.next();
-                                                break;
+                                        delete_module(del_module_code, Student);
 
-                                            } else if (Student.getModules()
-                                                    .indexOf(Module) == Student.getModules().size() - 1) {
-                                                System.out.println("Module not found!");
-                                            }
+                                        System.out.print("Do u want to continue to delete(y/n): ");
+                                        del_module_loop = scan.next();
 
-                                        }
+                                    //     for (Iterator<Module> y = Student.getModules().iterator(); y.hasNext();) {
+                                    //         Module Module = y.next();
+                                    //         if (del_module_code.equals(Module.getModuleCode())) {
+                                    //             y.remove();
+                                    //             System.out.print(Student.getModules());
+                                    //             System.out.print("\nDo you want to delete more module(y/n): ");
+                                    //             del_module_loop = scan.next();
+                                    //             break;
+
+                                    //         } else if (Student.getModules()
+                                    //                 .indexOf(Module) == Student.getModules().size() - 1) {
+                                    //             System.out.println("Module not found!");
+                                    //         }
+
+                                    //     }
                                         break;
                                     } else if (Students.indexOf(Student) == Students.size() - 1) {
                                         System.out.println("Student not found!");
                                     }
 
                                 }
-                            } else {
-                                break;
                             }
                         }
 
-                    } 
-                    
                     //OverallMarks.....................                    
                     else if (sm_option == 3) {
                         String x = "y";
@@ -564,6 +640,7 @@ public class GradeTracker {
             //End............................
             else if (main_option == 4) {
                 System.out.println("\nProgram ended successfully!");
+                scan.close();
                 System.exit(0);
             }
 
