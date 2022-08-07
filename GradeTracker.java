@@ -10,11 +10,11 @@ public class GradeTracker {
 //METHOD............................................
 
     //GPA................
-    public static double get_GPA(String id){
-        double gpa = 0;
+    public static String get_GPA(String id){
+        String gpa = "";
         for(Student x :Students){
                 if(x.getStudentID().equals(id)){
-                    gpa = x.getGPA();
+                    gpa = ("\n"+x.getName()+" has a GPA of "+x.getGPA()+"."+"\n");
                     break;
                 }else if (Students.indexOf(x) == Students.size() - 1) {
                     System.out.println("Student not found!");
@@ -150,7 +150,7 @@ public class GradeTracker {
                             }catch(InputMismatchException e){
                                 System.out.println("Only allow Numbers!");
                             }catch(IllegalArgumentException e){
-                                System.out.println("Student is already exist!");
+                                System.out.println("Student ID is already exist!");
                             }
                         }
 
@@ -197,7 +197,7 @@ public class GradeTracker {
                         while(x.equals("y")){
                             System.out.println("Enter student id: ");
                             String id = scan.next();
-                            System.out.println( "GPA is: "+ get_GPA(id));
+                            System.out.println(get_GPA(id));
                             System.out.println("Do you want to find another student's GPA?(y/n): ");
                             x = scan.next();
                         }
