@@ -7,17 +7,23 @@ public class GradeTracker {
     private static ArrayList<Student> Students = new ArrayList<>();
 
 
-    //method.......
+//METHOD............................................
+
+    //GPA................
     public static double get_GPA(String id){
         double gpa = 0;
         for(Student x :Students){
                 if(x.getStudentID().equals(id)){
                     gpa = x.getGPA();
-                }     
+                    break;
+                }else if (Students.indexOf(x) == Students.size() - 1) {
+                    System.out.println("Student not found!");
+                }    
         }
         return gpa;
     }
 
+    //mark...............
     public static double get_overAllMark(String id,String moduleCode){
         double overallmark = 0;
         for(Student x :Students){
@@ -32,6 +38,7 @@ public class GradeTracker {
             return overallmark;    
         }
  
+    //grade..............
     public static String get_overAllGrade(String id,String moduleCode){
         String overallmark = "";
         for(Student x :Students){
@@ -56,6 +63,7 @@ public class GradeTracker {
         return s != null && s.chars().allMatch(Character::isDigit);
     }
 
+    //idcheck............
     public static boolean check_id(String id){
         boolean check = false;
         for(Student x :Students){
@@ -66,17 +74,29 @@ public class GradeTracker {
         return check;
     }
 
+    //deleteStudent......
+    public static void delete_student(String id){
+        for (Iterator<Student> x = Students.iterator(); x.hasNext();) {
+            Student Student = x.next();
+            if (Student.getStudentID().equals(id)) {
+                x.remove();
+                System.out.println(Students);
+                break;
+            } else if (Students.indexOf(Student) == Students.size() - 1) {
+                System.out.println("Student not found!");
+            }  
+        } 
+    }
 
-
-    //main..............
+    //main...............
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
         
         // obj............
 
-        Students.add(new Student("MGMG", "1"));
-        Students.add(new Student("AUNGAUNG", "2"));
+        Students.add(new Student("Johnny", "1"));
+        Students.add(new Student("David", "2"));
 
         while (true) {
             try{
@@ -148,21 +168,26 @@ public class GradeTracker {
                     else if (sm_option == 2) {
                         String del_std = "y";
                         while (del_std.equals("y")) {
+                
                             System.out.print("\nEnter the student id to delete: ");
                             String del_id = scan.next();
-
-                            for (Iterator<Student> x = Students.iterator(); x.hasNext();) {
-                                Student Student = x.next();
-                                if (Student.getStudentID().equals(del_id)) {
-                                    x.remove();
-                                    System.out.println(Students);
-                                    System.out.print("Do u want to continue to delete(y/n): ");
-                                    del_std = scan.next();
-                                    break;
-                                } else if (Students.indexOf(Student) == Students.size() - 1) {
-                                    System.out.println("Student not found!");
-                                }
-                            }
+                            delete_student(del_id);
+                            //End_loop............................
+                            System.out.print("Do u want to continue to delete(y/n): ");
+                            del_std = scan.next();
+ 
+                            // for (Iterator<Student> x = Students.iterator(); x.hasNext();) {
+                            //     Student Student = x.next();
+                            //     if (Student.getStudentID().equals(del_id)) {
+                            //         x.remove();
+                            //         System.out.println(Students);
+                            //         System.out.print("Do u want to continue to delete(y/n): ");
+                            //         del_std = scan.next();
+                            //         break;
+                            //     } else if (Students.indexOf(Student) == Students.size() - 1) {
+                            //         System.out.println("Student not found!");
+                            //     }
+                            // }
                         }
                     }
                     
@@ -172,7 +197,7 @@ public class GradeTracker {
                         while(x.equals("y")){
                             System.out.println("Enter student id: ");
                             String id = scan.next();
-                            System.out.println( get_GPA(id));
+                            System.out.println( "GPA is: "+ get_GPA(id));
                             System.out.println("Do you want to find another student's GPA?(y/n): ");
                             x = scan.next();
                         }
