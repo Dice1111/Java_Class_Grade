@@ -1,6 +1,6 @@
 package apple;
 
-import java.util.*;
+
 
 public class Assessment {
     private String name;

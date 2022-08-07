@@ -46,6 +46,27 @@ public class GradeTracker {
             return overallmark;    
     }
     
+    //alphabet...........
+    public static boolean isAlpha(String s) {
+        return s != null && s.chars().allMatch(Character::isLetter);
+    }
+
+    //number.............
+    public static boolean isDigit(String s) {
+        return s != null && s.chars().allMatch(Character::isDigit);
+    }
+
+    public static boolean check_id(String id){
+        boolean check = false;
+        for(Student x :Students){
+                if(x.getStudentID().equals(id)){
+                    check = true;
+                }     
+        }
+        return check;
+    }
+
+
 
     //main..............
     public static void main(String[] args) {
@@ -58,30 +79,62 @@ public class GradeTracker {
         Students.add(new Student("AUNGAUNG", "2"));
 
         while (true) {
-            System.out.print(
-                    "\n1:Student Management\n2:Module Management\n3:Assessment Management\n4:End Program\nEnter Option: ");
+            try{
+            System.out.print("\n1:Student Management\n2:Module Management\n3:Assessment Management\n4:End Program\nEnter Option: ");
             int main_option = scan.nextInt();
-
+            scan.nextLine();
+            
             // Students..................
             if (main_option == 1) {
 
                 while (true) {
-                    System.out.print(
-                            "\n1:Create new students\n2:Delete new students\n3:Calculate GPA\n0:Go Main Menu\nEnter Option: ");
+                    try{
+                    System.out.print("\n1:Create new students\n2:Delete new students\n3:Calculate GPA\n0:Go Main Menu\nEnter Option: ");
                     int sm_option = scan.nextInt();
-                    // create new students............
 
+                    // create new students............
                     if (sm_option == 1) {
                         Student std = new Student();
+
                         // name...............
-                        System.out.print("\nEnter student name; ");
-                        String std_name = scan.next();
-                        std.setName(std_name);
+                        while(true){
+                            try{
+                                System.out.print("\nEnter student name; ");
+                                String std_name = scan.next();
+                                scan.nextLine();
+                                if(!(isAlpha(std_name))){
+                                    throw new InputMismatchException();
+                                }
+                                std.setName(std_name);
+                                break;
+
+                            }catch(InputMismatchException e){
+                                System.out.println("Only allow Alphabets!");
+                            }
+                    }
 
                         // id.....................
-                        System.out.print("Enter student id; ");
-                        String std_id = scan.next();
-                        std.setStudentID(std_id);
+                        while(true){
+                            try{
+                                System.out.print("Enter student id; ");
+                                String std_id = scan.next();
+                                scan.nextLine();
+                                if(!(isDigit(std_id))){
+                                    throw new InputMismatchException();
+                                }else if(check_id(std_id)){
+                                    throw new IllegalArgumentException();
+                                }
+                                std.setStudentID(std_id);
+                                break;
+
+                            }catch(InputMismatchException e){
+                                System.out.println("Only allow Numbers!");
+                            }catch(IllegalArgumentException e){
+                                System.out.println("Student is already exist!");
+                            }
+                        }
+
+
 
                         Students.add(std);
                         System.out.println("New student is created successfully:\nName: "
@@ -97,6 +150,7 @@ public class GradeTracker {
                         while (del_std.equals("y")) {
                             System.out.print("\nEnter the student id to delete: ");
                             String del_id = scan.next();
+
                             for (Iterator<Student> x = Students.iterator(); x.hasNext();) {
                                 Student Student = x.next();
                                 if (Student.getStudentID().equals(del_id)) {
@@ -111,7 +165,8 @@ public class GradeTracker {
                             }
                         }
                     }
-                    // GPA....................
+                    
+                    // GPA..............................
                     else if (sm_option == 3) {
                         String x = "y";
                         while(x.equals("y")){
@@ -122,24 +177,32 @@ public class GradeTracker {
                             x = scan.next();
                         }
                         
-                    } else if (sm_option == 0) {
+                    } 
+                    
+                    //End.................................
+                    else if (sm_option == 0) {
                         break;
-                    } else {
-                        System.out.println("\nInvalid Input.Please Try Again!!\n");
+                    } 
+                    
+                    else {
+                        System.out.println("\nInvalid Input.Please Try Again!!");
                     }
-
+                    }catch(java.util.InputMismatchException e ){
+                        System.out.println("\nPlease enter the available numbers.");
+                        scan.nextLine();
+                    }
                 }
 
             }
             
             // Modules........................
-
             else if (main_option == 2) {
 
                 while (true) {
-                    System.out.print(
-                            "\n1:Add modules number of a student\n2:Delete modules from a student\n3:Get student mark\n4:Get student grade\n0:Go Main Menu\nEnter Option: ");
+                    try{
+                    System.out.print("\n1:Add modules number of a student\n2:Delete modules from a student\n3:Get student mark\n4:Get student grade\n0:Go Main Menu\nEnter Option: ");
                     int sm_option = scan.nextInt();
+                    
                     // Add Module................
                     if (sm_option == 1) {
                         String module_loop = "y";
@@ -193,7 +256,6 @@ public class GradeTracker {
                     }
 
                     // Delete Modules....................
-
                     else if (sm_option == 2) {
                         String del_module_loop = "y";
 
@@ -239,7 +301,7 @@ public class GradeTracker {
 
                     } 
                     
-                    //OverallMarks.....................
+                    //OverallMarks.....................                    
                     else if (sm_option == 3) {
                         String x = "y";
                         while(x.equals("y")){
@@ -253,8 +315,8 @@ public class GradeTracker {
                         }
 
                     } 
-                    //OverallGrade.....................
                     
+                    //OverallGrade.....................
                     else if (sm_option == 4) {
                         String x = "y";
                         while(x.equals("y")){
@@ -266,23 +328,35 @@ public class GradeTracker {
                         System.out.println("Do you want to find another student's GPA?(y/n): ");
                         x = scan.next();
                         }
-                    } else if (sm_option == 0) {
+                    } 
+                    
+                    //End.............................
+                    else if (sm_option == 0) {
                         break;
-                    } else {
-                        System.out.println("\nInvalid Input.Please Try Again!!\n");
+                    } 
+                    
+                    else {
+                        System.out.println("\nPlease enter the available numbers.");
                     }
+                }catch(java.util.InputMismatchException e){
+                    System.out.println("\nPlease enter the available numbers.");
+                    scan.nextLine();
                 }
+            }
 
             }
 
-            // Assessment.....................
-            
+            // Assessment.....................        
             else if (main_option == 3) {
 
                 while (true) {
+                    try {
+                        
                     System.out.print(
                             "\n1:Add assessment numbers of a student\n2:Remove assessment numbers of a student\n0:Go Main Menu\nEnter Option: ");
                     int sm_option = scan.nextInt();
+
+                    //Add Assessment.................
                     if (sm_option == 1) {
 
                         String assess_loop = "y";
@@ -362,7 +436,10 @@ public class GradeTracker {
 
                         }
 
-                    } else if (sm_option == 2) {
+                    } 
+                  
+                    //Delete Assessment..............
+                    else if (sm_option == 2) {
 
                         String del_assess_loop = "y";
                         String main_del_assess_loop = "y";
@@ -441,25 +518,40 @@ public class GradeTracker {
                             }
                         }
 
-                    } else if (sm_option == 0) {
+                    } 
+                    
+                    //End...........................
+                    else if (sm_option == 0) {
                         break;
-                    } else {
-                        System.out.println("\nInvalid Input.Please Try Again!!\n");
                     }
+                    
+                    else {
+                        System.out.println("\nPlease enter the available numbers.");
+                    }
+                }catch(java.util.InputMismatchException e){
+                    System.out.println("\nPlease enter the available numbers.");
+                    scan.nextLine();
                 }
+            }
 
             } 
             
+            //End............................
             else if (main_option == 4) {
-                System.out.println("\nProgram is terminated");
+                System.out.println("\nProgram ended successfully!");
                 System.exit(0);
             }
 
             else {
-                System.out.println("\nInvalid Input.Please Try Again!!\n");
+                System.out.println("\nPlease enter the available numbers.");
 
             }
-            
+        }
+        
+        catch (java.util.InputMismatchException e){
+            System.out.println("\nPlease enter the available numbers.");
+            scan.nextLine();
+        }
         }
 
        
