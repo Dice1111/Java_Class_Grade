@@ -1,42 +1,9 @@
 
-import java.util.*;
-    
-
-
 public class test {
-    
-    public static void main(String[] args){
-        Scanner scan = new Scanner(System.in);
-
-        while(true){
-            System.out.println("Insert amount:");
-            try
-            {
-                double amount = scan.nextDouble();
-                System.out.println(amount);
-                break;
-            } 
-            catch (java.util.InputMismatchException e)
-            {
-                System.out.println("Must be a double.");
-                scan.nextLine();
-            }
-            
-
-        }
-
-
-    }
-
-    // public static boolean isAlpha(String s) {
-    //     return s != null && s.chars().allMatch(Character::isLetter);
-    // }
- 
-    // public static void main(String[] args)
-    // {
-    //     String s = "ABCD";
-    //     System.out.println("IsAlpha: " + isAlpha(s));
-    // }
-
-
-}
+    public static int iStatic = 10; 
+    public void nonStatic() {
+         System.out.println("can access static variable inside non-static method : " + iStatic); main(new String[2]); 
+        } 
+    public static void main(String[] args) { 
+        System.out.println("Inside main method"); 
+    } }

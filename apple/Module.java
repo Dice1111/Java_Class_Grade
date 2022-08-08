@@ -6,8 +6,9 @@ public class Module {
     private String name;
     private String moduleCode;
     private String description;
-    private int creditUnits;
-    private static double gradePoint;
+    private int creditUnits =0;
+    // private static double gradePoint;
+    private String overallGrade = "Failure";
     private ArrayList<Assessment> assessments = new ArrayList<Assessment>();
 
     public Module() {
@@ -92,46 +93,50 @@ public class Module {
     public String getOverallGrade(){
         Iterator<Assessment> a = assessments.iterator();
         double grade_mark = 0;
-        String overallGrade = "";
+        
         while ( a.hasNext()) {
             Assessment assessment = a.next();
             grade_mark += assessment.getWeightageMarks();
         }
         switch((int)grade_mark/10){
             case 10:
-            overallGrade = "A+";
+            this.overallGrade = "A+";
             break;
             case 9:
-            overallGrade = "A";
+            this.overallGrade = "A";
             break;
             case 8:
-            overallGrade = "B+";
+            this.overallGrade = "B+";
             break;
             case 7:
-            overallGrade = "B";
+            this.overallGrade = "B";
             break;
             case 6:
-            overallGrade = "C+";
+            this.overallGrade = "C+";
             break;
             case 5:
-            overallGrade = "C";
+            this.overallGrade = "C";
             break;
             case 4:
             case 3:
             case 2:
             case 1:
             case 0:
-            overallGrade = "Failure";
+            this.overallGrade = "Failure";
+            break;
+            default:
+            this.overallGrade = "Failure";
             break;
         }
-        return overallGrade;   
+        getGradePoints(this.overallGrade); 
+        return overallGrade;
     }
 
     
 
     
     public static double getGradePoints(String grade){
-       
+        double gradePoint = 0;
         switch(grade){
         case "A+":
         gradePoint = 4;
@@ -154,6 +159,9 @@ public class Module {
         case "Failure":
         gradePoint = 0;
         break;
+        default:
+        gradePoint = 0;
+        break;
         }
         return gradePoint;
 
@@ -162,7 +170,7 @@ public class Module {
 
     public double getWeightedGradePoints(){
 
-        return this.creditUnits*gradePoint;
+        return this.creditUnits*getGradePoints(this.overallGrade);
     }
     
 

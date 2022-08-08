@@ -13,11 +13,13 @@ public class GradeTracker {
     //GPA................
     public static String get_GPA(String id){
         String gpa = "";
+        
         for(Student x :Students){
                 if(x.getStudentID().equals(id)){
                     gpa = ("\nStudent Name: "+x.getName()+"\nStudent ID  : "+x.getStudentID()+"\nStudent GPA : "+x.getGPA()+"\n");
                     break;
                 }else if (Students.indexOf(x) == Students.size() - 1) {
+                    
                     System.out.println("Student not found!");
                 }    
         }
@@ -25,16 +27,28 @@ public class GradeTracker {
     }
 
     //mark...............
-    public static double get_overAllMark(String id,String moduleCode){
-        double overallmark = 0;
+    public static String get_overAllMark(String id,String moduleCode){
+        String overallmark = "";
         for(Student x :Students){
                 if(x.getStudentID().equals(id)){
+                    if(x.getModules().isEmpty()){
+                        System.out.println("Module is Empty.");
+                        break;
+                    }
                     for(Module y : x.getModules()){
                         if(y.getModuleCode().equals(moduleCode)){
-                            overallmark = y.getOverallMarks();
+                            overallmark = ("\nStudent Name: "+x.getName()+"\nStudent ID  : "+x.getStudentID()+"\nStudent Overall Mark : "+y.getOverallMarks()+"\n");
+                            markTable(x);
+                            break;
+
+                        }else if (x.getModules().indexOf(y) == x.getModules().size() - 1) {
+                            System.out.println("Module not found!");
                         }
                     }
-                }
+                    break;
+                }else if (Students.indexOf(x) == Students.size() - 1) {
+                    System.out.println("Student not found!");
+                }  
             } 
             return overallmark;    
         }
@@ -44,19 +58,48 @@ public class GradeTracker {
         String overallmark = "";
         for(Student x :Students){
                     if(x.getStudentID().equals(id)){
+                        if(x.getModules().isEmpty()){
+                            System.out.println("Module is Empty.");
+                            break;
+                        }
                         for(Module y : x.getModules()){
                             if(y.getModuleCode().equals(moduleCode)){
-                                overallmark = y.getOverallGrade();
+                                overallmark = ("\nStudent Name: "+x.getName()+"\nStudent ID  : "+x.getStudentID()+"\nStudent Overall Mark : "+y.getOverallGrade()+"\n");
+                                markTable(x);
+                                break;
+                            }else if (x.getModules().indexOf(y) == x.getModules().size() - 1) {
+                                System.out.println("Module not found!");
                             }
                         }
-                    }
+                        break;
+                    }else if (Students.indexOf(x) == Students.size() - 1) {
+                        System.out.println("Student not found!");
+                    }  
                 } 
             return overallmark;    
     }
     
     //alphabet...........
     public static boolean isAlpha(String s) {
-        return s != null && s.chars().allMatch(Character::isLetter);
+        // return s != null && s.chars().allMatch(Character::isLetter) ;
+        boolean check = false;
+        for(int i =0;i<s.length();i++){
+            if(s!=null && (Character.isWhitespace(s.charAt(i)) || Character.isLetter(s.charAt(i)))){
+                check = true;
+            }
+        }
+        return check;
+    }
+    //alphabetAndDigit...........
+    public static boolean isAlphaDigit(String s) {
+        // return s != null && s.chars().allMatch(Character::isLetter) ;
+        boolean check = false;
+        for(int i =0;i<s.length();i++){
+            if(s!=null && (Character.isWhitespace(s.charAt(i)) || Character.isLetterOrDigit(s.charAt(i)))){
+                check = true;
+            }
+        }
+        return check;
     }
 
     //number.............
@@ -78,6 +121,8 @@ public class GradeTracker {
     //modulenamecheck............
     public static boolean check_mod_name(String name,Student student){
         boolean check = false;
+        
+        
         for(Module y: student.getModules()){
             if(y.getModuleName().equals(name)){
                 check = true;
@@ -119,14 +164,12 @@ public class GradeTracker {
         for (Iterator<Student> x = Students.iterator(); x.hasNext();) {
             Student Student = x.next();
             if (Student.getStudentID().equals(id)) {
-                
-
-
-                System.out.println("\n"+Student.getName()+ " with student id "+Student.getStudentID()+" has been deleted successfully.");
                 x.remove();
+                System.out.println("\nDelete successful.");
+                studentTable();
                 break;
             } else if (Students.indexOf(Student) == Students.size() - 1) {
-                System.out.println("\nStudent not found!");
+                System.out.println("Student not found!");
             }  
         } 
     }
@@ -137,7 +180,9 @@ public class GradeTracker {
             Module single_module = y.next();
             if (del_module_code.equals(single_module.getModuleCode())) {
                 y.remove();
-                System.out.print(module.getModules());
+                System.out.println("\nModule deleted successfully.");
+                moduleTable(module);
+                // System.out.print(module.getModules());
                 break;
 
             } else if (module.getModules().indexOf(single_module) == module.getModules().size() - 1) {
@@ -157,38 +202,66 @@ public class GradeTracker {
         for (Student x:Students) {
             System.out.format(leftAlignFormat, x.getName(),x.getStudentID());
         }
-        System.out.format("+-----------------+-----------------+%n");
+        System.out.format("+-----------------+-----------------+%n\n");
 
     }
 
-    //studentTable.............
+    //studentGPATable.............
     public static void GPA_Table(){
-        String leftAlignFormat = "| %-15s | %-15s | %.1f   |%n";
+        String leftAlignFormat = "| %-15s | %-15s | %-15.1f |%n";
         System.out.println("\nAll Students GPA");
-        System.out.format("+-----------------+-----------------+-------+%n");
-        System.out.format("| Student Name    | ID              | GPA   |%n");
-        System.out.format("+-----------------+-----------------+-------+%n");
+        System.out.format("+-----------------+-----------------+-----------------+%n");
+        System.out.format("| Student Name    | Student ID      | GPA             |%n");
+        System.out.format("+-----------------+-----------------+-----------------+%n");
         for (Student x:Students) {
             System.out.format(leftAlignFormat, x.getName(),x.getStudentID(),x.getGPA());
         }
-        System.out.format("+-----------------+-----------------+-------+%n");
+        System.out.format("+-----------------+-----------------+-----------------+%n\n");
 
     }
-
 
     //moduleTable..............
     public static void moduleTable(Student student){
-        String leftAlignFormat = "| %-15s | %-15s |%n";
+        String leftAlignFormat = "| %-15s | %-15s | %-15s | %-15d |%n";
         System.out.println("\n"+student.getName()+"("+student.getStudentID()+")"+"'s Modules");
-        System.out.format("+-----------------+-----------------+%n");
-        System.out.format("| Module Name     | Module Code     |%n");
-        System.out.format("+-----------------+-----------------+%n");
+        System.out.format("+-----------------+-----------------+-----------------+-----------------+%n");
+        System.out.format("| Module Name     | Module Code     | Description     | Credit Unit     |%n");
+        System.out.format("+-----------------+-----------------+-----------------+-----------------+%n");
         for (Module x:student.getModules()) {
-            System.out.format(leftAlignFormat,x.getModuleName(),x.getModuleCode());
+            System.out.format(leftAlignFormat,x.getModuleName(),x.getModuleCode(),x.getDescription(),x.getCreditUnits());
         }
-        System.out.format("+-----------------+-----------------+%n");
+        System.out.format("+-----------------+-----------------+-----------------+-----------------+%n\n");
 
     }
+
+    //markTable..............
+    public static void markTable(Student student){
+        String leftAlignFormat = "| %-15s | %-15s | %-15.1f | %-15s |%n";
+        System.out.println("\n"+student.getName()+"("+student.getStudentID()+")"+"'s Modules");
+        System.out.format("+-----------------+-----------------+-----------------+-----------------+%n");
+        System.out.format("| Module Name     | Module Code     | Overall Mark    | Grade           |%n");
+        System.out.format("+-----------------+-----------------+-----------------+-----------------+%n");
+        for (Module x:student.getModules()) {
+            System.out.format(leftAlignFormat,x.getModuleName(),x.getModuleCode(),x.getOverallMarks(),x.getOverallGrade());
+        }
+        System.out.format("+-----------------+-----------------+-----------------+-----------------+%n\n");
+
+    }
+        
+    //markTable..............
+    public static void asmTable(Student student,Module module){
+        String leftAlignFormat = "| %-15s | %-15s | %-15.1f | %-15.1f | %-15.1f |%n";
+        System.out.println("\n"+student.getName()+"("+student.getStudentID()+")"+"=> "+module.getModuleName());
+        System.out.format("+-----------------+-----------------+-----------------+-----------------+-----------------+%n");
+        System.out.format("| Assesment Name  | Description     | Mark            | Total Mark      | Weightage Mark  |%n");
+        System.out.format("+-----------------+-----------------+-----------------+-----------------+-----------------+%n");
+        for (Assessment x:module.getAssessments()) {
+            System.out.format(leftAlignFormat,x.getName(),x.getDescription(),x.getMarks(),x.getTotalMarks(),x.getWeightageMarks());
+        }
+        System.out.format("+-----------------+-----------------+-----------------+-----------------+-----------------+%n\n");
+
+    }   
+
     //main...............
     public static void main(String[] args) {
 
@@ -206,6 +279,7 @@ public class GradeTracker {
             int main_option = scan.nextInt();
             scan.nextLine();
             
+            
             // Students..................
             if (main_option == 1) {
                 while (true) {
@@ -213,21 +287,24 @@ public class GradeTracker {
                         System.out.println("\nSTUDENT MANAGEMENT");
                         System.out.print("1:Create new student\n2:Delete student\n3:Calculate GPA\n0:Go back to Main Menu\n\nEnter Option: ");
                         int sm_option = scan.nextInt();
+                        scan.nextLine();
 
                     // create new students............
                     if (sm_option == 1) {
                         System.out.println("\nCreating student profile... ");
                         Student std = new Student();
+                
+                
+                        studentTable();
+                        
                         
                         // name...............
                         while(true){
                             
                             try{
                                 System.out.print("Enter student name: ");
-                                String std_name = scan.next();
-                                std_name = std_name.toUpperCase();
-
-                                scan.nextLine();
+                                String std_name = scan.nextLine();
+                                std_name = std_name.toUpperCase().trim();
                                 if(!(isAlpha(std_name))){
                                     throw new InputMismatchException();
                                 }
@@ -244,7 +321,6 @@ public class GradeTracker {
                             try{
                                 System.out.print("Enter student id  : ");
                                 String std_id = scan.next();
-                                scan.nextLine();
                                 if(!(isDigit(std_id))){
                                     throw new InputMismatchException();
                                 }else if(check_id(std_id)){
@@ -271,11 +347,13 @@ public class GradeTracker {
                         studentTable();
                     }
 
-                    // delete new students..............
+                    // delete students..............
                     else if (sm_option == 2) {
                         System.out.println("\nCollecting data to delete...");
+                        studentTable();
                         String del_std = "y";
                         while (del_std.equals("y")) {
+                            
                 
                             System.out.print("\nEnter the student id to delete: ");
                             String del_id = scan.next();
@@ -286,7 +364,6 @@ public class GradeTracker {
                             }
                             delete_student(del_id);
 
-                            studentTable();
                             //End_loop............................
                             System.out.print("\nDo u want sill want to delete(y/n): ");
                             del_std = scan.next();
@@ -300,6 +377,10 @@ public class GradeTracker {
                         while(x.equals("y")){
                             System.out.print("Enter student id: ");
                             String id = scan.next();
+                            if(Students.isEmpty()){
+                                System.out.println("There is no student.");
+                                break;
+                            }
                             System.out.println(get_GPA(id));
                             GPA_Table();
                             System.out.println("Do you want to find another student's GPA?(y/n): ");
@@ -327,19 +408,24 @@ public class GradeTracker {
             // Modules........................
             else if (main_option == 2) {
 
+                
+
                 while (true) {
                     try{
                     System.out.println("\nMODULE MANAGEMENT");
                     System.out.print("1:Add modules to a student\n2:Delete modules from a student\n3:Get the overall mark from a student\n4:Get grade from a student\n0:Go back to Main Menu\n\nEnter Option: ");
                     int sm_option = scan.nextInt();
+                    scan.nextLine();
                     
                     // Add Module................
                     if (sm_option == 1) {
                         System.out.println("\nAdding module...");
+                        studentTable();
                         String module_loop = "y";
                         while (module_loop.equals("y")) {
                             System.out.print("Enter student id to add modules: ");
                             String mod_std_id = scan.next();
+                            scan.nextLine();
 
                             if(Students.isEmpty()){
                                 System.out.println("There is no student to add module.Please add students first!");
@@ -353,9 +439,12 @@ public class GradeTracker {
                                     while(true){
                                         try{
                                             System.out.print("add module name: ");
-                                            String module_name = scan.next();
-                                            module_name = module_name.toUpperCase();
-                                            if(check_mod_name(module_name,x)){
+                                            String module_name = scan.nextLine();
+                                            module_name = module_name.toUpperCase().trim();
+                                            if(!isAlphaDigit(module_name)){
+                                                throw new InputMismatchException();
+                                            }
+                                            else if(check_mod_name(module_name,x)){
                                                 throw new IllegalArgumentException();
                                             }
                                             std_module.setModuleName(module_name);
@@ -364,6 +453,8 @@ public class GradeTracker {
                                         catch (IllegalArgumentException e ){
                                             System.out.println("\nModule name is already exist!\n");
                                         
+                                        }catch (InputMismatchException e){
+                                            System.out.println("Enter Alphabets and Number Only!");
                                         }
 
                                     }
@@ -373,6 +464,7 @@ public class GradeTracker {
                                         try{
                                             System.out.print("add module code: ");
                                             String module_code = scan.next();
+                                            scan.nextLine();
                                             if(check_mod_code(module_code,x)){
                                                 throw new IllegalArgumentException();
                                             }
@@ -387,7 +479,7 @@ public class GradeTracker {
 
                                     //Desc....................
                                     System.out.print("add module description: ");
-                                    String module_description = scan.next();
+                                    String module_description = scan.nextLine();
                                     std_module.setDescription(module_description);                           
 
 
@@ -409,8 +501,8 @@ public class GradeTracker {
                                     x.setModules(std_module);
 
                                     System.out.println("\nA New Module name \""+x.getModules().get(x.getModules().indexOf(std_module)).getModuleName()+"\" is added into \""+x.getName()+"("+x.getStudentID()+")"+"\".");
-                                    System.out.println(x);
-                                    System.out.println(x.getModules());
+                                    // System.out.println(x);
+                                    // System.out.println(x.getModules());
 
                                     moduleTable(x);
 
@@ -427,14 +519,16 @@ public class GradeTracker {
 
                     // Delete Modules....................
                     else if (sm_option == 2) {
-                        String del_module_loop = "y";
 
+                        System.out.println("\nDeleting module...");
+                        String del_module_loop = "y";
+                        studentTable();
                         while (del_module_loop.equals("y") ){
-                                System.out.print("\nEnter student id to remove modules: ");
+                                System.out.print("Enter student id to remove modules: ");
                                 String mod_std_id = scan.next();
 
                                 if(Students.isEmpty()){
-                                    System.out.println("\nThere is no student to delete module.Please add students first!");
+                                    System.out.println("There is no student to delete module.Please add students first!");
                                     break;
                                 }
                                 for (Iterator<Student> x = Students.iterator(); x.hasNext();) {
@@ -443,18 +537,18 @@ public class GradeTracker {
                                     if (student.getStudentID().equals((mod_std_id))) {
 
                                         if(student.getModules().isEmpty()){
-                                            System.out.println("\nModule is empty!");
+                                            System.out.println("Module is empty!");
                                             del_module_loop = "n";
                                             break;
                                         }
 
-                                        System.out.print(student.getModules());
-                                        
-                                        System.out.print("\nEnter module code to remove: ");
-                                        String del_module_code = scan.next();
+                                        // System.out.print(student.getModules());
+                                        moduleTable(student);
 
+
+                                        System.out.print("Enter module code to remove: ");
+                                        String del_module_code = scan.next();
                                         delete_module(del_module_code, student);
-                                        System.out.println("\nModule deleted successfully.");
 
                                         System.out.print("Do u want to continue to delete(y/n): ");
                                         del_module_loop = scan.next();
@@ -469,14 +563,15 @@ public class GradeTracker {
 
                     //OverallMarks.....................                    
                     else if (sm_option == 3) {
+                        System.out.println("\nCalculating overall mark...");
                         String x = "y";
                         while(x.equals("y")){
-                        System.out.println("Enter student id");
+                        System.out.print("Enter student id : ");
                         String id = scan.next();
-                        System.out.println("Enter module code");
+                        System.out.print("Enter module code: ");
                         String module_code = scan.next();
                         System.out.println(get_overAllMark(id,module_code));
-                        System.out.println("Do you want to find another student's GPA?(y/n): ");
+                        System.out.print("Do you want to find another student's overall mark?(y/n): ");
                         x = scan.next();
                         }
 
@@ -484,14 +579,15 @@ public class GradeTracker {
                     
                     //OverallGrade.....................
                     else if (sm_option == 4) {
+                        System.out.println("\nCalculating overall grade...");
                         String x = "y";
                         while(x.equals("y")){
-                        System.out.println("Enter student id");
+                        System.out.print("Enter student id: ");
                         String id = scan.next();
-                        System.out.println("Enter module code");
+                        System.out.print("Enter module code: ");
                         String module_code = scan.next();
                         System.out.println(get_overAllGrade(id,module_code));
-                        System.out.println("Do you want to find another student's GPA?(y/n): ");
+                        System.out.print("Do you want to find another student's overall grade?(y/n): ");
                         x = scan.next();
                         }
                     } 
@@ -517,22 +613,26 @@ public class GradeTracker {
 
                 while (true) {
                     try {
-                        
+                    System.out.println("\nMANAGE ASSESSMENT");   
                     System.out.print(
-                            "\n1:Add assessment numbers of a student\n2:Remove assessment numbers of a student\n0:Go Main Menu\nEnter Option: ");
+                            "1:Add assessment numbers of a student\n2:Remove assessment numbers of a student\n0:Go Main Menu\nEnter Option: ");
                     int sm_option = scan.nextInt();
 
                     //Add Assessment.................
                     if (sm_option == 1) {
+                        System.out.println("\nAdding assessment...");
+
+                        studentTable();
 
                         String assess_loop = "y";
                         while (assess_loop.equals("y")) {
         
-                                System.out.print("\nEnter Student id to add assessment: ");
+                                System.out.print("Enter Student id to add assessment: ");
                                 String assess_std_id = scan.next();
+                                assess_std_id = assess_std_id.toUpperCase().trim();
 
                                 if(Students.isEmpty()){
-                                    System.out.println("\nThere is no student to delete!\n");
+                                    System.out.println("There is no student to delete!\n");
                                     break;
                                 }
 
@@ -544,16 +644,17 @@ public class GradeTracker {
                                     if (student.getStudentID().equals(assess_std_id)) {
                                             
                                         // prompt data first to choose easily
-                                        System.out.println(student);
-                                        System.out.println(student.getModules());
+                                        // System.out.println(student);
+                                        // System.out.println(student.getModules());
 
                                         if(student.getModules().isEmpty()){
-                                            System.out.println("\nModule is empty!");
+                                            System.out.println("Module is empty!");
                                             assess_loop = "n";
                                             break;
                                         }
+                                        moduleTable(student);
 
-                                        System.out.print("\nEnter Module id to add assessment: ");
+                                        System.out.print("Enter Module id to add assessment: ");
                                         String assess_module_id = scan.next();
 
                                         
@@ -568,7 +669,7 @@ public class GradeTracker {
                                                 while(true){
 
                                                     try{
-                                                        System.out.print("\nadd Assessment name: ");
+                                                        System.out.print("add Assessment name: ");
                                                         String assess_name = scan.next();
                                                         if(check_asm_name(assess_name,module)){
                                                             throw new InputMismatchException();
@@ -597,18 +698,25 @@ public class GradeTracker {
                                                     double assess_weightage = scan.nextDouble();
                                                     std_assess.setWeightage(assess_weightage);
 
+                                                    System.out.println("Assessment created successfully!");
+                                                    asmTable(student, module);
+                                                    
+                                                    // Module.getGradePoints(module.getOverallGrade());
+
                                                     System.out.println(module);
                                                     System.out.println(module.getAssessments());
                                                     System.out.println(std_assess.getWeightageMarks());
                                                     System.out.println(module.getOverallMarks());
                                                     System.out.println(module.getOverallTotalMarks());
                                                     System.out.println(module.getOverallGrade());
-                                                    System.out.println(Module.getGradePoints(module.getOverallGrade()));
+
+
+                                                    //System.out.println(Module.getGradePoints(module.getOverallGrade()));
                                                     System.out.println(module.getWeightedGradePoints());
                                                     System.out.println(student.getTotalCreditUnits());
                                                     System.out.println(student.getGPA());
 
-                                                    System.out.print("\nDo you want to add more Assessment(y/n): ");
+                                                    System.out.print("Do you want to add more Assessment(y/n): ");
                                                     assess_loop = scan.next();
 
                                                     break;
@@ -623,7 +731,7 @@ public class GradeTracker {
                                 
                                     
                                     else if (Students.indexOf(student) == Students.size() - 1) {
-                                        System.out.println("Module not found!");
+                                        System.out.println("Student not found!");
                                     }
 
                                     
@@ -637,9 +745,12 @@ public class GradeTracker {
                   
                     //Delete Assessment..............
                     else if (sm_option == 2) {
-
+                        System.out.println("\nDeleting assessment...");
                         String del_assess_loop = "y";
+
+                        studentTable();
                         while (del_assess_loop.equals("y")) {
+                            
                                 System.out.print("\nEnter student id to remove Assessment; ");
                                 String mod_std_id = scan.next();
 
@@ -663,6 +774,8 @@ public class GradeTracker {
                                             break;
                                         }
 
+                                        moduleTable(student);
+
                                         System.out.print("\nEnter module code to remove Assessment: ");
                                         String del_module_code = scan.next();
 
@@ -681,6 +794,8 @@ public class GradeTracker {
                                                     break;
                                                 }
 
+                                                asmTable(student, module);
+
                                                 System.out.print("\nEnter Assessment name to remove: ");
                                                 String del_assess_name = scan.next();
                                                         
@@ -689,9 +804,11 @@ public class GradeTracker {
                                                     Assessment Assessment = w.next();
                                                     if (Assessment.getName().equals(del_assess_name)) {
                                                         w.remove();
-                                                        System.out.print(module.getAssessments());
+                                                        System.out.println("Assessment deleted successfully.");
+                                                        asmTable(student, module);
+                                                        // System.out.print(module.getAssessments());
 
-                                                        System.out.println("\nDo you want to delete more assessment for this Student(y/n): ");
+                                                        System.out.println("\nDo you want to delete more assessment for this student(y/n): ");
                                                         del_assess_loop = scan.next();
                                                         break;
 
