@@ -15,7 +15,7 @@ public class GradeTracker {
         String gpa = "";
         for(Student x :Students){
                 if(x.getStudentID().equals(id)){
-                    gpa = ("\n"+x.getName()+" has a GPA of "+x.getGPA()+"."+"\n");
+                    gpa = ("\nStudent Name: "+x.getName()+"\nStudent ID  : "+x.getStudentID()+"\nStudent GPA : "+x.getGPA()+"\n");
                     break;
                 }else if (Students.indexOf(x) == Students.size() - 1) {
                     System.out.println("Student not found!");
@@ -119,11 +119,14 @@ public class GradeTracker {
         for (Iterator<Student> x = Students.iterator(); x.hasNext();) {
             Student Student = x.next();
             if (Student.getStudentID().equals(id)) {
+                
+
+
+                System.out.println("\n"+Student.getName()+ " with student id "+Student.getStudentID()+" has been deleted successfully.");
                 x.remove();
-                System.out.println(Students);
                 break;
             } else if (Students.indexOf(Student) == Students.size() - 1) {
-                System.out.println("Student not found!");
+                System.out.println("\nStudent not found!");
             }  
         } 
     }
@@ -144,6 +147,48 @@ public class GradeTracker {
         }
     }
 
+    //studentTable.............
+    public static void studentTable(){
+        String leftAlignFormat = "| %-15s | %-15s |%n";
+        System.out.println("\nAll Students");
+        System.out.format("+-----------------+-----------------+%n");
+        System.out.format("| Student Name    | ID              |%n");
+        System.out.format("+-----------------+-----------------+%n");
+        for (Student x:Students) {
+            System.out.format(leftAlignFormat, x.getName(),x.getStudentID());
+        }
+        System.out.format("+-----------------+-----------------+%n");
+
+    }
+
+    //studentTable.............
+    public static void GPA_Table(){
+        String leftAlignFormat = "| %-15s | %-15s | %.1f   |%n";
+        System.out.println("\nAll Students GPA");
+        System.out.format("+-----------------+-----------------+-------+%n");
+        System.out.format("| Student Name    | ID              | GPA   |%n");
+        System.out.format("+-----------------+-----------------+-------+%n");
+        for (Student x:Students) {
+            System.out.format(leftAlignFormat, x.getName(),x.getStudentID(),x.getGPA());
+        }
+        System.out.format("+-----------------+-----------------+-------+%n");
+
+    }
+
+
+    //moduleTable..............
+    public static void moduleTable(Student student){
+        String leftAlignFormat = "| %-15s | %-15s |%n";
+        System.out.println("\n"+student.getName()+"("+student.getStudentID()+")"+"'s Modules");
+        System.out.format("+-----------------+-----------------+%n");
+        System.out.format("| Module Name     | Module Code     |%n");
+        System.out.format("+-----------------+-----------------+%n");
+        for (Module x:student.getModules()) {
+            System.out.format(leftAlignFormat,x.getModuleName(),x.getModuleCode());
+        }
+        System.out.format("+-----------------+-----------------+%n");
+
+    }
     //main...............
     public static void main(String[] args) {
 
@@ -151,32 +196,37 @@ public class GradeTracker {
         
         // obj............
 
-        Students.add(new Student("Johnny", "1"));
-        Students.add(new Student("David", "2"));
+        Students.add(new Student("JOHNNY", "1"));
+        Students.add(new Student("DAVID", "2"));
 
         while (true) {
             try{
-            System.out.print("\n1:Student Management\n2:Module Management\n3:Assessment Management\n4:End Program\nEnter Option: ");
+            System.out.println("\nMAIN MENU");
+            System.out.print("1:Student Management\n2:Module Management\n3:Assessment Management\n4:End Program\n\nEnter Option: ");
             int main_option = scan.nextInt();
             scan.nextLine();
             
             // Students..................
             if (main_option == 1) {
-
                 while (true) {
                     try{
-                    System.out.print("\n1:Create new students\n2:Delete new students\n3:Calculate GPA\n0:Go Main Menu\nEnter Option: ");
-                    int sm_option = scan.nextInt();
+                        System.out.println("\nSTUDENT MANAGEMENT");
+                        System.out.print("1:Create new student\n2:Delete student\n3:Calculate GPA\n0:Go back to Main Menu\n\nEnter Option: ");
+                        int sm_option = scan.nextInt();
 
                     // create new students............
                     if (sm_option == 1) {
+                        System.out.println("\nCreating student profile... ");
                         Student std = new Student();
-
+                        
                         // name...............
                         while(true){
+                            
                             try{
-                                System.out.print("\nEnter student name; ");
+                                System.out.print("Enter student name: ");
                                 String std_name = scan.next();
+                                std_name = std_name.toUpperCase();
+
                                 scan.nextLine();
                                 if(!(isAlpha(std_name))){
                                     throw new InputMismatchException();
@@ -192,7 +242,7 @@ public class GradeTracker {
                         // id.....................
                         while(true){
                             try{
-                                System.out.print("Enter student id; ");
+                                System.out.print("Enter student id  : ");
                                 String std_id = scan.next();
                                 scan.nextLine();
                                 if(!(isDigit(std_id))){
@@ -213,15 +263,17 @@ public class GradeTracker {
 
 
                         Students.add(std);
-                        System.out.println("New student is created successfully:\nName: "
-                                + Students.get(Students.indexOf(std)).getName() + "\nid: "
+                        System.out.println("\nNew student is created successfully.\nName: "
+                                + Students.get(Students.indexOf(std)).getName() + "\nid  : "
                                 + Students.get(Students.indexOf(std)).getStudentID());
-                        System.out.println(Students);
+                        // System.out.println(Students);
 
+                        studentTable();
                     }
 
                     // delete new students..............
                     else if (sm_option == 2) {
+                        System.out.println("\nCollecting data to delete...");
                         String del_std = "y";
                         while (del_std.equals("y")) {
                 
@@ -233,19 +285,23 @@ public class GradeTracker {
                                 break;
                             }
                             delete_student(del_id);
+
+                            studentTable();
                             //End_loop............................
-                            System.out.print("Do u want to continue to delete(y/n): ");
+                            System.out.print("\nDo u want sill want to delete(y/n): ");
                             del_std = scan.next();
                         }
                     }
                     
                     // GPA..............................
                     else if (sm_option == 3) {
+                        System.out.println("\nCalculating GPA...");
                         String x = "y";
                         while(x.equals("y")){
-                            System.out.println("Enter student id: ");
+                            System.out.print("Enter student id: ");
                             String id = scan.next();
                             System.out.println(get_GPA(id));
+                            GPA_Table();
                             System.out.println("Do you want to find another student's GPA?(y/n): ");
                             x = scan.next();
                         }
@@ -258,7 +314,7 @@ public class GradeTracker {
                     } 
                     
                     else {
-                        System.out.println("\nInvalid Input.Please Try Again!!");
+                        System.out.println("\nPlease enter the available options.");
                     }
                     }catch(java.util.InputMismatchException e ){
                         System.out.println("\nPlease enter the available numbers.");
@@ -273,31 +329,32 @@ public class GradeTracker {
 
                 while (true) {
                     try{
-                    System.out.print("\n1:Add modules number of a student\n2:Delete modules from a student\n3:Get student mark\n4:Get student grade\n0:Go Main Menu\nEnter Option: ");
+                    System.out.println("\nMODULE MANAGEMENT");
+                    System.out.print("1:Add modules to a student\n2:Delete modules from a student\n3:Get the overall mark from a student\n4:Get grade from a student\n0:Go back to Main Menu\n\nEnter Option: ");
                     int sm_option = scan.nextInt();
                     
                     // Add Module................
                     if (sm_option == 1) {
+                        System.out.println("\nAdding module...");
                         String module_loop = "y";
                         while (module_loop.equals("y")) {
-                            System.out.print("\nEnter student id to add modules; ");
+                            System.out.print("Enter student id to add modules: ");
                             String mod_std_id = scan.next();
 
                             if(Students.isEmpty()){
-                                System.out.println("\nThere is no student to add module.Please add students first!");
+                                System.out.println("There is no student to add module.Please add students first!");
                                 break;
                             }
 
                             for (Student x: Students) {
                                 if (x.getStudentID().equals((mod_std_id))) {
                                     Module std_module = new Module();
-                                    
-
                                     //Name....................
                                     while(true){
                                         try{
                                             System.out.print("add module name: ");
                                             String module_name = scan.next();
+                                            module_name = module_name.toUpperCase();
                                             if(check_mod_name(module_name,x)){
                                                 throw new IllegalArgumentException();
                                             }
@@ -350,10 +407,12 @@ public class GradeTracker {
 
                                     
                                     x.setModules(std_module);
-                                    System.out.print(x);
-                                    System.out.print(x.getModules());
 
+                                    System.out.println("\nA New Module name \""+x.getModules().get(x.getModules().indexOf(std_module)).getModuleName()+"\" is added into \""+x.getName()+"("+x.getStudentID()+")"+"\".");
+                                    System.out.println(x);
+                                    System.out.println(x.getModules());
 
+                                    moduleTable(x);
 
                                     System.out.print("\nDo you want to add more module(y/n): ");
                                     module_loop = scan.next();
@@ -371,7 +430,7 @@ public class GradeTracker {
                         String del_module_loop = "y";
 
                         while (del_module_loop.equals("y") ){
-                                System.out.print("\nEnter student id to remove modules; ");
+                                System.out.print("\nEnter student id to remove modules: ");
                                 String mod_std_id = scan.next();
 
                                 if(Students.isEmpty()){
@@ -544,7 +603,7 @@ public class GradeTracker {
                                                     System.out.println(module.getOverallMarks());
                                                     System.out.println(module.getOverallTotalMarks());
                                                     System.out.println(module.getOverallGrade());
-                                                    Module.getGradePoints(module.getOverallGrade());
+                                                    System.out.println(Module.getGradePoints(module.getOverallGrade()));
                                                     System.out.println(module.getWeightedGradePoints());
                                                     System.out.println(student.getTotalCreditUnits());
                                                     System.out.println(student.getGPA());
@@ -685,7 +744,7 @@ public class GradeTracker {
             }
 
             else {
-                System.out.println("\nPlease enter the available numbers.");
+                System.out.println("\nPlease enter the available options.");
 
             }
         }

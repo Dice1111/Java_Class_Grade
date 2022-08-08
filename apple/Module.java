@@ -130,7 +130,7 @@ public class Module {
     
 
     
-    public static void getGradePoints(String grade){
+    public static double getGradePoints(String grade){
        
         switch(grade){
         case "A+":
@@ -155,7 +155,7 @@ public class Module {
         gradePoint = 0;
         break;
         }
-        System.out.println(gradePoint);
+        return gradePoint;
 
     }
 
