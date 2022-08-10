@@ -14,7 +14,9 @@ public class Assessment {
 
     
     public Assessment(){
-
+        this.marks = 0;
+        this.totalMarks = 0;
+        this.weightage = 0;
     }
 
     public Assessment(String name,String description,double marks,double totalMarks,double weightage){

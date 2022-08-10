@@ -5,7 +5,7 @@ import java.util.*;
 public class Student {
     private String name;
     private String studentID;
-    private double WGP;
+    // private double WGP;
     private ArrayList<Module> modules = new ArrayList<Module>();
 
     public Student() {

@@ -6,13 +6,31 @@ public class Module {
     private String name;
     private String moduleCode;
     private String description;
-    private int creditUnits =0;
+    private int creditUnits;
     // private static double gradePoint;
-    private String overallGrade = "Failure";
+    private String overallGrade = "F";
     private ArrayList<Assessment> assessments = new ArrayList<Assessment>();
 
-    public Module() {
+    enum GradeChar {
+        APlus("A+"),
+        A("A"),
+        BPlus("B+"),
+        B("B"),
+        CPlus("C+"),
+        C("C"),
+        DPlus("D+"),
+        D("D"),
+        F("F");
 
+        private final String value;
+
+        private GradeChar(String value) {
+            this.value = value;
+        }
+    }
+
+    public Module() {
+        this.creditUnits = 0;
     }
 
     public Module(String name, String moduleCode, String description, int creditUnits) {
@@ -100,32 +118,32 @@ public class Module {
         }
         switch((int)grade_mark/10){
             case 10:
-            this.overallGrade = "A+";
+            this.overallGrade = GradeChar.APlus.value;
             break;
             case 9:
-            this.overallGrade = "A";
+            this.overallGrade = GradeChar.A.value;
             break;
             case 8:
-            this.overallGrade = "B+";
+            this.overallGrade = GradeChar.BPlus.value;
             break;
             case 7:
-            this.overallGrade = "B";
+            this.overallGrade = GradeChar.B.value;
             break;
             case 6:
-            this.overallGrade = "C+";
+            this.overallGrade = GradeChar.CPlus.value;
             break;
             case 5:
-            this.overallGrade = "C";
+            this.overallGrade = GradeChar.C.value;
             break;
             case 4:
             case 3:
             case 2:
             case 1:
             case 0:
-            this.overallGrade = "Failure";
+            this.overallGrade = GradeChar.F.value;
             break;
             default:
-            this.overallGrade = "Failure";
+            this.overallGrade = GradeChar.F.value;
             break;
         }
         getGradePoints(this.overallGrade); 
@@ -156,7 +174,7 @@ public class Module {
         case "C":
         gradePoint = 1.5;
         break;
-        case "Failure":
+        case "F":
         gradePoint = 0;
         break;
         default:

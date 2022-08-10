@@ -4,6 +4,7 @@ import apple.Module;
 import java.util.*;
 
 
+
 public class GradeTracker {
     private static ArrayList<Student> Students = new ArrayList<>();
 
@@ -13,15 +14,23 @@ public class GradeTracker {
     //GPA................
     public static String get_GPA(String id){
         String gpa = "";
+        double gpa_total = 0;
         
         for(Student x :Students){
                 if(x.getStudentID().equals(id)){
-                    gpa = ("\nStudent Name: "+x.getName()+"\nStudent ID  : "+x.getStudentID()+"\nStudent GPA : "+x.getGPA()+"\n");
+                    for(Module y : x.getModules()){
+                        y.getOverallGrade();
+                        gpa_total = x.getGPA();
+                        
+                    
+                    }
+                    gpa = ("\nStudent Name: "+x.getName()+"\nStudent ID  : "+x.getStudentID()+"\nStudent GPA : "+gpa_total+"\n");
                     break;
                 }else if (Students.indexOf(x) == Students.size() - 1) {
                     
                     System.out.println("Student not found!");
-                }    
+                }  
+
         }
         return gpa;
     }
@@ -106,6 +115,10 @@ public class GradeTracker {
     public static boolean isDigit(String s) {
         return s != null && s.chars().allMatch(Character::isDigit);
     }
+    // //number.............
+    // public static boolean isDigit(double s) {
+    //     return s != null && s.chars().allMatch(Character::isDigit);
+    // }
 
     //stdidcheck............
     public static boolean check_id(String id){
@@ -269,8 +282,8 @@ public class GradeTracker {
         
         // obj............
 
-        Students.add(new Student("JOHNNY", "1"));
-        Students.add(new Student("DAVID", "2"));
+        // Students.add(new Student("JOHNNY", "1"));
+        // Students.add(new Student("DAVID", "2"));
 
         while (true) {
             try{
@@ -293,6 +306,7 @@ public class GradeTracker {
                     if (sm_option == 1) {
                         System.out.println("\nCreating student profile... ");
                         Student std = new Student();
+                    
                 
                 
                         studentTable();
@@ -681,46 +695,63 @@ public class GradeTracker {
                                                     }
                                                 }
 
-                                                    System.out.print("add Assessment Description: ");
-                                                    String assess_descript = scan.next();
-                                                    std_assess.setDescription(assess_descript);
+                                                System.out.print("add Assessment Description: ");
+                                                String assess_descript = scan.next();
+                                                std_assess.setDescription(assess_descript);
 
-                                                    System.out.print("add Assessment marks: ");
-                                                    double assess_marks = scan.nextDouble();
-                                                    std_assess.setMarks(assess_marks);
-                                                    module.setAssessments(std_assess);
-                                                    
-                                                    System.out.print("add Assessment total possible mark: ");
-                                                    double assessess_totalMark = scan.nextDouble();
-                                                    std_assess.setTotalMarks(assessess_totalMark);
-
-                                                    System.out.print("add Assessment weightage: ");
-                                                    double assess_weightage = scan.nextDouble();
-                                                    std_assess.setWeightage(assess_weightage);
-
-                                                    System.out.println("Assessment created successfully!");
-                                                    asmTable(student, module);
-                                                    
-                                                    // Module.getGradePoints(module.getOverallGrade());
-
-                                                    System.out.println(module);
-                                                    System.out.println(module.getAssessments());
-                                                    System.out.println(std_assess.getWeightageMarks());
-                                                    System.out.println(module.getOverallMarks());
-                                                    System.out.println(module.getOverallTotalMarks());
-                                                    System.out.println(module.getOverallGrade());
-
-
-                                                    //System.out.println(Module.getGradePoints(module.getOverallGrade()));
-                                                    System.out.println(module.getWeightedGradePoints());
-                                                    System.out.println(student.getTotalCreditUnits());
-                                                    System.out.println(student.getGPA());
-
-                                                    System.out.print("Do you want to add more Assessment(y/n): ");
-                                                    assess_loop = scan.next();
-
+                                                //mark..............................
+                                                while(true){
+                                                    try{
+                                                        System.out.print("add Assessment marks: ");
+                                                        double assess_marks = scan.nextDouble();
+                                                        std_assess.setMarks(assess_marks);
+                                                        
                                                     break;
-                                                } 
+                                                    }catch(InputMismatchException e){
+                                                        System.out.println("Enter only number!");
+                                                        scan.nextLine();
+                                                    }
+                                                }
+                                                    
+                                                //total mark........................
+                                                while(true){   
+                                                    try{
+                                                        System.out.print("add Assessment total possible mark: ");
+                                                        double assessess_totalMark = scan.nextDouble();
+                                                        std_assess.setTotalMarks(assessess_totalMark);
+                                                     break;
+                                                    }catch(InputMismatchException e){
+                                                        System.out.println("Enter only number!");
+                                                        scan.nextLine();
+                                                    }
+                                                }
+
+                                                //weightage........................
+                                                while(true){ 
+                                                    try{ 
+                                                        System.out.print("add Assessment weightage: ");
+                                                        double assess_weightage = scan.nextDouble();
+                                                        std_assess.setWeightage(assess_weightage);
+                                                        break;
+                                                    }catch(InputMismatchException e){
+                                                        System.out.println("Enter only number!");
+                                                        scan.nextLine();
+                                                    }
+                                                }
+
+                                                module.setAssessments(std_assess);
+                                                System.out.println("Assessment created successfully!");
+                                                asmTable(student, module);
+
+                                                module.getOverallGrade();
+
+                                                System.out.println(student.getGPA());
+
+                                                System.out.print("Do you want to add more Assessment(y/n): ");
+                                                assess_loop = scan.next();
+
+                                                break;
+                                            } 
   
                                             else if (student.getModules().indexOf(module) == student.getModules().size() - 1) {
                                                 System.out.println("Module not found!");
@@ -818,6 +849,7 @@ public class GradeTracker {
                                                                 System.out.println("Assessment not found!");
                                                             }
                                                         }
+                                                        break;
 
                                             } 
                                             
